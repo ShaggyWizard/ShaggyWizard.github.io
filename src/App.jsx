@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createContext, useEffect, useState } from 'react'
+import Menu from './menu/Menu';
+import Create from './create/Create';
+import Edit from './Edit/Edit';
+
+export const ToolContext = createContext();
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [route, setRoute] = useState("menu");
+	const [currentTest, setCurrentTest] = useState("");
+	const [currentLang, setCurrentLang] = useState("ru");
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	const context = {
+		setRoute,
+		currentTest, setCurrentTest,
+		currentLang, setCurrentLang,
+	}
+	useEffect(() => {
+		
+	}, [currentLang])
+
+	return (
+		<ToolContext.Provider value={context}>
+			<div className='container mx-auto '>
+				{route === "menu" && <Menu />}
+				{route === "create" && <Create />}
+				{route === "edit" && <Edit testName={currentTest} />}
+			</div>
+			{route !== "menu" &&
+				<button
+					className='fixed left-0 top-0 p-2 bg-red-300'
+					onClick={() => setRoute("menu")}
+				>
+					В меню
+				</button>
+			}
+			<label className='fixed right-0 top-0 p-2 '>
+				<select
+					value={currentLang}
+					onChange={e => setCurrentLang(e.target.value)}
+				>
+					<option value="ru">Русский</option>
+					<option value="en">Английский</option>
+					<option value="tr">Турецкий</option>
+				</select>
+			</label>
+		</ToolContext.Provider>
+	)
 }
 
 export default App
