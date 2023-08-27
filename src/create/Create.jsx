@@ -29,7 +29,7 @@ export default function Create() {
 
 	const onCreate = () => {
 		setLocalData("packs", [value, ...getLocalData("packs")]);
-		setLocalData(value, { weights: [""], preTest: [], test: [], results: [] });
+		setLocalData(value, { weights: [""], preTest: [], test: [{ question: {}, answers: [{ values: [] }, { values: [] }] }], results: [] });
 		setRoute("edit");
 		setCurrentTest(value);
 	}

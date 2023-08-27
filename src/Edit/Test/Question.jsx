@@ -33,7 +33,7 @@ export default function Question({ index }) {
 						className="flex gap-2 items-center"
 						labelClass="text-xl font-bold"
 						inputClass="flex-1"
-						value={test.test[index].question[currentLang] ?? ""}
+						value={test.test[index]?.question?.[currentLang] ?? ""}
 						onChange={handleQuestionChange}
 						label={"Вопрос " + (index + 1)}
 					/>

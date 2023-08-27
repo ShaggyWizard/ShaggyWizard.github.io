@@ -7,7 +7,7 @@ export default function Test() {
 	const { test, setTest, currentLang } = useContext(ToolContext);
 	const [questionIndex, setQuestionIndex] = useState(0);
 	const createNew = () => {
-		setTest({ ...test, test: [...test.test, { question: new Object(), answers: [{}, {}] }], })
+		setTest({ ...test, test: [...test.test, { question: {}, answers: [{ values: [] }, { values: [] }] }], })
 	}
 
 	return (
@@ -41,7 +41,7 @@ function QuestionButton({ active, error, index, onClick }) {
 }
 
 function hasErrors(question, lang) {
-	if (!question.question[lang]?.length) return true;
+	if (!question.question?.[lang]?.length) return true;
 	for (let i = 0; i < question.answers.length; i++) {
 		if (!question.answers[i][lang]?.length) return true;
 		let notFound = true;
