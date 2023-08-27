@@ -1,29 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import { ToolContext } from "../../App";
+import { useContext, useEffect } from "react";
 import Input from "../../Input";
+import { ToolContext } from "../../App";
 
-export default function Answer({ questionIndex, index }) {
+export default function ResultVariant({ index }) {
 	const { test, setTest, currentLang } = useContext(ToolContext);
 
-	const handleAnswerChange = (e) => {
+	const handleQuestionChange = (e) => {
 		const nextTest = { ...test };
-		nextTest.test[questionIndex].answers[index][currentLang] = e.target.value;
+		nextTest.results[index].text[currentLang] = e.target.value;
 		setTest(nextTest);
 	}
-	const handleAnswerValueChange = (e, i) => {
+	const handleResultValueChange = (e, i) => {
 		const nextTest = { ...test };
-		if (!nextTest.test[questionIndex].answers[index].values) {
-			nextTest.test[questionIndex].answers[index].values = [];
-		}
-		while (nextTest.test[questionIndex].answers[index].values?.[i] === undefined) {
-			nextTest.test[questionIndex].answers[index].values.push(0);
-		}
-		nextTest.test[questionIndex].answers[index].values[i] = e.target.value;
+		nextTest.results[index].values[i] = +e.target.value;
 		setTest(nextTest);
 	}
 	const removeMe = () => {
 		const nextTest = { ...test };
-		nextTest.test[questionIndex].answers.splice(index, 1);
+		nextTest.results.splice(index, 1);
 		setTest(nextTest);
 	}
 
@@ -33,9 +27,10 @@ export default function Answer({ questionIndex, index }) {
 				<div className="flex-1 flex flex-col gap-2 items-stretch ">
 					<Input
 						className="flex gap-2 items-center"
+						labelClass="text-xl font-bold"
 						inputClass="flex-1"
-						value={test.test[questionIndex].answers?.[index]?.[currentLang] ?? ""}
-						onChange={handleAnswerChange}
+						value={test.results[index].text[currentLang] ?? ""}
+						onChange={handleQuestionChange}
 						label={(index + 1)}
 					/>
 				</div>
@@ -54,8 +49,8 @@ export default function Answer({ questionIndex, index }) {
 						labelClass="text-xl font-bold"
 						inputClass="flex-1"
 						type="number"
-						value={test.test[questionIndex].answers?.[index]?.values?.[i] ?? 0}
-						onChange={(e) => handleAnswerValueChange(e, i)}
+						value={test.results[index].values[i] ?? 0}
+						onChange={(e) => handleResultValueChange(e, i)}
 						label={weight}
 					/>
 				)}

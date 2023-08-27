@@ -9,7 +9,7 @@ export default function Question({ index }) {
 
 	const addAnswer = () => {
 		const nextTest = { ...test };
-		nextTest.test[index].answers.push({});
+		nextTest.test[index].answers.push({ values: [] });
 
 		setTest(nextTest);
 	}
@@ -20,7 +20,7 @@ export default function Question({ index }) {
 	}
 	const removeMe = () => {
 		const nextTest = { ...test };
-		nextTest.test.splice(index, 1); 
+		nextTest.test.splice(index, 1);
 		setTest(nextTest);
 	}
 
